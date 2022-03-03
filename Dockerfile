@@ -8,4 +8,6 @@ RUN ["/bin/sh", "-c", "pip3 install -U awscli"]
 
 COPY ["src", "/src/"]
 
+USER 1001
+
 ENTRYPOINT ["/src/main.sh"]
