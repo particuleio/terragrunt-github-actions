@@ -1,16 +1,10 @@
-FROM alpine:3
+FROM alpine:3 
 
-RUN apk add --update --no-cache bash ca-certificates curl git jq openssh py-pip tar
+RUN ["/bin/sh", "-c", "apk add --update --no-cache bash ca-certificates curl git jq openssh py-pip"]
 
-RUN apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl
+RUN ["/bin/sh", "-c", "apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing kubectl"]
 
-RUN pip3 install -U awscli
-
-RUN adduser -D -u 1001 terragrunt
-
-USER terragrunt
-
-WORKDIR /home/terragrunt
+RUN ["/bin/sh", "-c", "pip3 install -U awscli"]
 
 COPY ["src", "/src/"]
 
