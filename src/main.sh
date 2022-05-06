@@ -24,6 +24,13 @@ function parseInputs {
     exit 1
   fi
 
+  if [ "${INPUT_KUBECTL_VERSION}" != "" ]; then
+    kubectlVersion=${INPUT_KUBECTL_VERSION}
+  else
+    echo "Input kubectl_version cannot be empty"
+    exit 1
+  fi
+
   if [ "${INPUT_TG_ACTIONS_VERSION}" != "" ]; then
     tgVersion=${INPUT_TG_ACTIONS_VERSION}
   else
@@ -115,6 +122,20 @@ function installTerraform {
   echo "Successfully unzipped Terraform v${tfVersion}"
 }
 
+function installKubectl {
+  if [[ "${kubectlVersion}" == "latest" ]]; then
+    echo "Checking the latest version of kubectl"
+    kubectlUrl=https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  else
+    echo "Checking version ${kubectlVersion} of kubectl"
+    kubectlUrl=https://storage.googleapis.com/kubernetes-release/release/${kubectlVersion}/bin/linux/amd64/kubectl
+  fi
+
+  curl -LO ${kubectlUrl}
+  chmod +x ./kubectl
+  mv ./kubectl /usr/local/bin/kubectl
+}
+
 function installTerragrunt {
   if [[ "${tgVersion}" == "latest" ]]; then
     echo "Checking the latest version of Terragrunt"
@@ -179,10 +200,12 @@ function main {
       terragruntValidate ${*}
       ;;
     plan)
+      installKubectl
       installTerragrunt
       terragruntPlan ${*}
       ;;
     apply)
+      installKubectl
       installTerragrunt
       terragruntApply ${*}
       ;;

@@ -81,6 +81,7 @@ Inputs configure Terraform GitHub Actions to perform different actions.
 
 | Input Name                          | Description                                                | Required |
 |:------------------------------------|:-----------------------------------------------------------|:--------:|
+| kubectl_version                     | The kubectl version to use. If not set, will default to `latest`.   | `No`    |
 | tf_actions_subcommand               | The Terraform/Terragrunt  subcommand to execute.           | `Yes`    |
 | tf_actions_binary                   | The binary to run the commands with                        | `No`     |
 | tf_actions_version                  | The Terraform version to install and execute. If set to `latest`, the latest stable version will be used. | `Yes` |
