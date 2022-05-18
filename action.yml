@@ -5,6 +5,9 @@ branding:
   icon: 'cloud'
   color: 'purple'
 inputs:
+  kubectl_version:
+    description: 'kubectl version'
+    default: 'latest'
   tf_actions_subcommand:
     description: 'Terraform or Terragrunt subcommand to execute.'
     required: true
